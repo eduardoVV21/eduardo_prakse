@@ -29,7 +29,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+       'password',
         'remember_token',
     ];
 
@@ -42,4 +42,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    // public function setPasswordAttribute($password)
+    // {
+    //    $this->attributes['password'] = bcrypt($password);
+    // }
+
+    // public function getNameAttribute($name)
+    // {
+    //     return 'My name is: ' .ucfirst($name);
+    // }
 }
