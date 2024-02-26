@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,16 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/user', [UserController::class, 'index']);
-
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/todos', 'TodoController@index');
+Route::get('todos/create', 'TodoController@create');
+//Route::resource('todos', \App\Http\Controllers\TodoController::class);
