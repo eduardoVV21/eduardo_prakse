@@ -1,26 +1,33 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Todo;
 class TodoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+   
+        public function index()
+        {
+            $todos = Todo::all();
+            return view('todos.index', compact('todos'));
+        }
+    
+        public function create()
+        {
+            return view('todos.create');   //<-Šis nestrādā
+        }
+    
+        public function edit(string $id)
     {
-        return view('todos.index');
+        // Find the todo item by its ID
+        //$todo = Todo::findOrFail($id);
+        
+        // Return the edit view with the todo item data
+        return view('todos.edit', compact('todo'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('todos.create');
-    }
+    
+    
 
     /**
      * Store a newly created resource in storage.
@@ -41,10 +48,7 @@ class TodoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+   
 
     /**
      * Update the specified resource in storage.

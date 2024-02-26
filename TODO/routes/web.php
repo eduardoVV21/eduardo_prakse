@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\TodoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,9 +17,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Auth::routes();
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/todos', 'TodoController@index');
-Route::get('todos/create', 'TodoController@create');
-//Route::resource('todos', \App\Http\Controllers\TodoController::class);
+
+Route::get('/todos', [TodoController::class, 'index'])->name('todos.index'); //šis pašlaik strādā
+Route::get('/todos/create', [TodoController::class, 'create'])->name('todos.create'); //šis pašlaik strādā
+Route::get('/todos/edit', [TodoController::class, 'edit'])->name('todos.edit');//<-sis nestrada
+
+Route::post('/todos', [TodoController::class, 'store'])->name('todos.store'); //<-sis nestrada
