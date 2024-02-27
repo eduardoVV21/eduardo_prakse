@@ -21,8 +21,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/todos', [TodoController::class, 'index'])->name('todos.index'); //šis pašlaik strādā
-Route::get('/todos/create', [TodoController::class, 'create'])->name('todos.create'); //šis pašlaik strādā
-Route::get('/todos/edit', [TodoController::class, 'edit'])->name('todos.edit');//<-sis nestrada
-
-Route::post('/todos', [TodoController::class, 'store'])->name('todos.store'); //<-sis nestrada
+Route::get('/todos', [TodoController::class, 'index'])->name('todos.index'); //šis  strādā
+Route::get('/todos/create', [TodoController::class, 'create'])->name('todos.create'); //šis  strādā
+Route::post('/todos/create', [TodoController::class, 'store'])->name('todos.store');
+Route::get('/todos/{id}/edit', [TodoController::class, 'edit'])->name('todos.edit');
+Route::put('/todos/{id}', [TodoController::class, 'update'])->name('todos.update');
