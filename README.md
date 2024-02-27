@@ -5,22 +5,27 @@ This project serves as a practical demonstration.
 ## Installation
 
 Before running the project, ensure that you have **Composer and XAMPP** installed on your system.
-https://www.apachefriends.org/download.html
 
-### Step-by-Step Installation Project
+### Step-by-Step Installation
 **Accessing the Project**: 
-1. **Clone the Repository**: git clone https://github.com/eduardoVV21/eduardo_prakse.git
-2. **Navigate to the Project Directory**:
+1. **Install XAMPP**: 
+   - Download XAMPP from [here](https://www.apachefriends.org/download.html) and follow the installation instructions for your operating system.
+
+2. **Install Composer**: 
+   - Download Composer from [here](https://getcomposer.org/download/) and follow the installation instructions provided.
+
+3. **Clone the Repository**: git clone https://github.com/eduardoVV21/eduardo_prakse.git
+4. **Navigate to the Project Directory**:
    ``` cd Todo ```
-3. **Install Dependencies**:
+5. **Install Dependencies**:
   ``` npm install ```
-4. **Once the servers are running connect to datebase**:
+6. **Once the servers are running connect to datebase**:
 
 ![image](https://github.com/eduardoVV21/eduardo_prakse/assets/158850377/98baa6bd-f3cc-4ad9-bbca-008aaeca3187)
 
-5. **Start the Development Server**:
+7. **Start the Development Server**:
   ``` npm run dev ```
-6. **Start the PHP Server**: 
+8. **Start the PHP Server**: 
 - Open a new terminal window.
 - Navigate to the project directory again:
   ```
@@ -30,6 +35,6 @@ https://www.apachefriends.org/download.html
   ```
   php artisan serve
   ``` 
- 7. PHP server -  http://localhost:8000/
+ 9. PHP server -  http://localhost:8000/
 
 
