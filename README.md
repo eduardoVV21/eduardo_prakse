@@ -14,7 +14,8 @@ Before running the project, ensure that you have **Composer and XAMPP** installe
 2. **Install Composer**: 
    - Download Composer from [here](https://getcomposer.org/download/) and follow the installation instructions provided.
 
-3. **Clone the Repository**: git clone https://github.com/eduardoVV21/eduardo_prakse.git
+3. **Clone the Repository**:
+   ```git clone https://github.com/eduardoVV21/eduardo_prakse.git```
 4. **Navigate to the Project Directory**:
    ``` cd Todo ```
 5. **Install Dependencies**:
@@ -25,8 +26,10 @@ Before running the project, ensure that you have **Composer and XAMPP** installe
 
 7. **Start the Development Server**:
   ``` npm run dev ```
-8. **Start the PHP Server**: 
+
+9. **Start the PHP Server**: 
 - Open a new terminal window.
+  
 - Navigate to the project directory again:
   ```
   cd Todo
