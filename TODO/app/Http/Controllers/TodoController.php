@@ -10,7 +10,7 @@ class TodoController extends Controller
    
         public function index()
         {
-            $todos = Todo::all();
+            $todos = Todo::orderBy('completed')->get();
             return view('todos.index', compact('todos'));
         }
     
@@ -21,7 +21,7 @@ class TodoController extends Controller
 
         public function store(TodoCreateRequest $request)
 {
-    // The request will automatically be validated
+  
     $data = $request->validated();
 
     $data['completed'] = 0; // Assuming 'completed' field is an integer
@@ -65,11 +65,25 @@ public function update(Request $request, $id)
     return redirect()->back()->with('success', 'Todo updated successfully');
 }
 
+public function complete(Request $request, $id)
+{
+    $todo = Todo::findOrFail($id);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    
+    // Toggle the 'completed' field
+    $todo->update(['completed' => !$todo->completed]);
+
+    $message = $todo->completed ? 'Task marked as completed!' : 'Task marked as incomplete!';
+
+    return redirect()->back()->with('message', $message);
+}
+
+public function destroy($id)
+    {
+        $todo = Todo::findOrFail($id);
+        $todo->delete();
+        return redirect()->route('todos.index')->with('success', 'Todo deleted successfully');
+    }
+
 
     /**
      * Display the specified resource.
@@ -92,8 +106,5 @@ public function update(Request $request, $id)
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+   
 }
