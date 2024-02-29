@@ -9,13 +9,13 @@ class Todo extends Model
 {
     use HasFactory;
 
-    protected $guarded=[];
-    //protected $fillable = ['title'];
+   // protected $guarded=[];
+    protected $fillable = ['title', 'completed', 'user_id', 'description'];
 
     //  public function getRouteKeyName()
     //  {
     //     return 'title';
     //  }
 
-    
+   
 }

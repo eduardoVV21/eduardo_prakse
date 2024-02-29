@@ -21,7 +21,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::middleware('auth')->group(function(){
+//Route::middleware('auth')->group(function(){
     Route::get('/todos', [TodoController::class, 'index'])->name('todos.index'); //šis  strādā
     Route::get('/todos/create', [TodoController::class, 'create'])->name('todos.create'); //šis  strādā
     Route::post('/todos/create', [TodoController::class, 'store'])->name('todos.store');
@@ -29,5 +29,6 @@ Route::middleware('auth')->group(function(){
     Route::put('/todos/{id}', [TodoController::class, 'update'])->name('todos.update');
     Route::put('/todos/{id}/complete', [TodoController::class, 'complete'])->name('todos.complete');
     Route::delete('/todos/{id}', [TodoController::class, 'destroy'])->name('todos.destroy');
-});
+    Route::get('/todos/{id}', [TodoController::class, 'show'])->name('todos.show');
+//});
 

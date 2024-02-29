@@ -5,12 +5,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Todo;
 use App\Http\Requests\TodoCreateRequest;
+use Illuminate\Support\Facades\Auth;
 class TodoController extends Controller
 {
-   
+   public function __construct()
+   {
+    $this->middleware('auth');
+   }
+
         public function index()
         {
-            $todos = Todo::orderBy('completed')->get();
+            $todos = auth()->user()->todos()->orderBy('completed')->get();
+          // return $todos;
+           // $todos = Todo::orderBy('completed')->get();
             return view('todos.index', compact('todos'));
         }
     
@@ -21,12 +28,13 @@ class TodoController extends Controller
 
         public function store(TodoCreateRequest $request)
 {
-  
     $data = $request->validated();
-
     $data['completed'] = 0; // Assuming 'completed' field is an integer
+
+    $data['user_id'] = auth()->id(); // Assigning user_id
+
     Todo::create($data);
-    
+
     return redirect()->route('todos.create')->with('success', 'Todo created successfully');
 }
 
@@ -48,18 +56,20 @@ public function update(Request $request, $id)
 
     $validator = Validator::make($request->all(), [
         'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
     ]);
 
     if ($validator->fails()) {
         return redirect()->back()->withErrors($validator)->withInput();
     }
 
-    // Check if the new title is different from the existing title
-    if ($request->title === $todo->title) {
+    // Check if the new title and description are different from the existing ones
+    if ($request->title === $todo->title && $request->description === $todo->description) {
         return redirect()->back()->with('warning', 'No changes were made to the todo.');
     }
 
     $todo->title = $request->title;
+    $todo->description = $request->description;
     $todo->save();
 
     return redirect()->back()->with('success', 'Todo updated successfully');
@@ -88,9 +98,13 @@ public function destroy($id)
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        // Retrieve the todo item from the database based on the ID
+        $todo = Todo::findOrFail($id);
+
+        // Pass the retrieved todo item to the view
+        return view('todos.show', compact('todo'));
     }
 
     /**

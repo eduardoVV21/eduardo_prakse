@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://unpkg.com/tailwindcss@%5E2/dist/tailwind.min.css">
 @extends('layouts.app')
 
 @section('content')
@@ -7,6 +8,11 @@
             <div class="card">
                 <div class="card-header">
                     Edit Todo
+                    <a href="{{ route('todos.index') }}" class="btn btn-outline-secondary btn-sm float-right">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 inline-block">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </a>
                 </div>
 
                 <div class="card-body">
@@ -41,10 +47,10 @@
                             <input type="text" name="title" id="title" class="form-control" value="{{ $todo->title }}" required>
                         </div>
 
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea name="description" id="description" class="form-control">{{ $todo->description }}</textarea>
-                        </div> -->
+                            <textarea name="description" id="description" class="form-control" rows="3">{{ $todo->description }}</textarea>
+                        </div>
 
                         <button type="submit" class="btn btn-primary">Update</button>
                         <a href="{{ route('todos.index') }}" class="btn btn-secondary">Cancel</a>
