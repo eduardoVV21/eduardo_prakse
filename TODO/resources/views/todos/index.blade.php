@@ -41,7 +41,7 @@
                                                         @method('put')
                                                     </form>
                                                 </button>
-                                                <span class="cursor-pointer" onclick="window.location='{{ route('todos.show', ['id' => $todo->id]) }}';">{{ $todo->title }}</span> <!-- Updated with cursor-pointer class and onclick event -->
+                                                <span class="cursor-pointer" onclick="redirectToTasksIndex('{{ $todo->id }}')">{{ $todo->title }}</span> <!-- Updated with cursor-pointer class and onclick event -->
                                             </div>
                                             <div class="flex">
                                                 <a href="{{ route('todos.edit', ['id' => $todo->id]) }}" class="mr-2">
@@ -76,6 +76,10 @@
             if (confirm('Are you sure you want to delete this todo?')) {
                 document.getElementById('deleteForm-' + todoId).submit();
             }
+        }
+
+        function redirectToTasksIndex(todoId) {
+            window.location = "/todos/" + todoId + "/tasks/index";
         }
     </script>
 @endsection

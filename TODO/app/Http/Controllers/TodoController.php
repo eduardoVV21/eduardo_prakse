@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Todo;
+use App\Models\Task;
 use App\Http\Requests\TodoCreateRequest;
 use Illuminate\Support\Facades\Auth;
 class TodoController extends Controller
@@ -98,14 +99,14 @@ public function destroy($id)
     /**
      * Display the specified resource.
      */
-    public function show($id)
-    {
-        // Retrieve the todo item from the database based on the ID
-        $todo = Todo::findOrFail($id);
+    // public function show($id)
+    // {
+    //     // Retrieve the todo item from the database based on the ID
+    //     $todo = Todo::findOrFail($id);
 
-        // Pass the retrieved todo item to the view
-        return view('todos.show', compact('todo'));
-    }
+    //     // Pass the retrieved todo item to the view
+    //     return view('todos.show', compact('todo'));
+    // }
 
     /**
      * Show the form for editing the specified resource.
