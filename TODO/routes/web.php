@@ -35,9 +35,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
      Route::get('/todos/{todo_id}/tasks/index', [TaskController::class, 'index'])->name('tasks.index');
      Route::get('/todos/{todo_id}/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
      Route::post('/todos/{todo_id}/tasks', [TaskController::class, 'store'])->name('tasks.store');
-    // Route::get('/todos/{todo_id}/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
-    // Route::put('/todos/{todo_id}/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
-    // Route::put('/todos/{todo_id}/tasks/{task_id}', [TaskController::class, 'update'])->name('tasks.update');
-   //  Route::delete('/todos/{todo_id}/tasks/{task_id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+   
+      Route::get('/todos/{todo_id}/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+      Route::put('/todos/{todo_id}/tasks/{task_id}', [TaskController::class, 'update'])->name('tasks.update');
+      Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 //});
 
