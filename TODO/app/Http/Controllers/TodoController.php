@@ -5,6 +5,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Todo;
 use App\Models\Task;
+use App\Models\User;
+//
+//use App\Mail\TodoShared;
+//use Illuminate\Support\Facades\Mail;
+//
 use App\Http\Requests\TodoCreateRequest;
 use Illuminate\Support\Facades\Auth;
 class TodoController extends Controller
@@ -17,8 +22,7 @@ class TodoController extends Controller
         public function index()
         {
             $todos = auth()->user()->todos()->orderBy('completed')->get();
-          // return $todos;
-           // $todos = Todo::orderBy('completed')->get();
+          
             return view('todos.index', compact('todos'));
         }
     
@@ -30,9 +34,9 @@ class TodoController extends Controller
         public function store(TodoCreateRequest $request)
 {
     $data = $request->validated();
-    $data['completed'] = 0; // Assuming 'completed' field is an integer
+    $data['completed'] = 0; 
 
-    $data['user_id'] = auth()->id(); // Assigning user_id
+    $data['user_id'] = auth()->id(); 
 
     Todo::create($data);
 
@@ -42,15 +46,13 @@ class TodoController extends Controller
 
 public function edit($id)
 {
-    // Find the todo item by ID
-    $todo = Todo::findOrFail($id);
-
-    // Return the edit view with the todo item data
+    
+    $todo = Todo::findOrFail($id);  
     return view('todos.edit', compact('todo'));
 }
     
     
-///////////////////////
+
 public function update(Request $request, $id)
 {
     $todo = Todo::findOrFail($id);
@@ -63,8 +65,6 @@ public function update(Request $request, $id)
     if ($validator->fails()) {
         return redirect()->back()->withErrors($validator)->withInput();
     }
-
-    // Check if the new title and description are different from the existing ones
     if ($request->title === $todo->title && $request->description === $todo->description) {
         return redirect()->back()->with('warning', 'No changes were made to the todo.');
     }
@@ -96,30 +96,28 @@ public function destroy($id)
     }
 
 
-    /**
-     * Display the specified resource.
-     */
-    // public function show($id)
-    // {
-    //     // Retrieve the todo item from the database based on the ID
-    //     $todo = Todo::findOrFail($id);
-
-    //     // Pass the retrieved todo item to the view
-    //     return view('todos.show', compact('todo'));
-    // }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-   
-
-    /**
-     * Update the specified resource in storage.
-     */
+    ///
+    public function share(Request $request)
+    {
+        $validatedData = $request->validate([
+            'todo_id' => 'required|exists:todos,id',
+            'email' => 'required|email|exists:users,email',
+            'message' => 'nullable|string',
+        ]);
     
+        $todo = Todo::findOrFail($validatedData['todo_id']);
+        $user = User::where('email', $validatedData['email'])->first();
+    
+        if (!$todo->users->contains($user)) {
+            $todo->users()->attach($user);
+            // You may want to send an email notification here using Laravel Mail
+            // Example: Mail::to($user->email)->send(new TodoShared($todo, $validatedData['message']));
+            
+            return response()->json(['message' => 'Todo shared successfully.'], 200);
+        } else {
+            return response()->json(['message' => 'Todo already shared with this user.'], 400);
+        }
+    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-   
+
 }

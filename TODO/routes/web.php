@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ShareController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,7 +23,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-//Route::middleware('auth')->group(function(){
+Route::middleware('auth')->group(function(){
     Route::get('/todos', [TodoController::class, 'index'])->name('todos.index'); 
     Route::get('/todos/create', [TodoController::class, 'create'])->name('todos.create'); 
     Route::post('/todos/create', [TodoController::class, 'store'])->name('todos.store');
@@ -39,5 +40,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
       Route::get('/todos/{todo_id}/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
       Route::put('/todos/{todo_id}/tasks/{task_id}', [TaskController::class, 'update'])->name('tasks.update');
       Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
-//});
+     // Share route
+    Route::post('/share/todo', [ShareController::class, 'shareTodo'])->name('share.todo');
+
+    
+   
+      });
 
