@@ -42,7 +42,8 @@ Route::middleware('auth')->group(function(){
       Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
      // Share route
     Route::post('/share/todo', [ShareController::class, 'shareTodo'])->name('share.todo');
-
+  //view shared lists 
+  Route::get('/shared-todos', [TodoController::class, 'showSharedTodos'])->name('shared.todos');
     
    
       });

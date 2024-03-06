@@ -11,11 +11,13 @@ class Todo extends Model
 
    // protected $guarded=[];
     protected $fillable = ['title', 'completed', 'user_id', 'description'];
-
-    //  public function getRouteKeyName()
-    //  {
-    //     return 'title';
-    //  }
-
+ public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+    // public function users()
+    // {
+    //     return $this->belongsToMany(User::class, 'todo_shares', 'todo_id', 'user_id')->withTimestamps();
+    // }
    
 }

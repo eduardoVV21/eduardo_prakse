@@ -7,6 +7,7 @@ use App\Models\Todo;
 use App\Models\Task;
 use App\Models\User;
 //
+use App\Models\TodoShare;
 //use App\Mail\TodoShared;
 //use Illuminate\Support\Facades\Mail;
 //
@@ -98,26 +99,45 @@ public function destroy($id)
 
     ///
     public function share(Request $request)
-    {
-        $validatedData = $request->validate([
-            'todo_id' => 'required|exists:todos,id',
-            'email' => 'required|email|exists:users,email',
-            'message' => 'nullable|string',
+{
+    $validatedData = $request->validate([
+        'todo_id' => 'required|exists:todos,id',
+        'email' => 'required|email|exists:users,email',
+        'message' => 'nullable|string',
+    ]);
+
+    $todo = Todo::findOrFail($validatedData['todo_id']);
+    $user = User::where('email', $validatedData['email'])->first();
+
+    if (!$todo->users->contains($user)) {
+        $todo->users()->attach($user);
+
+        // Saglabā uzdevumus, kas ir šajā todo
+        $tasks = $todo->tasks()->pluck('name')->toArray();
+
+        TodoShare::create([
+            'todo_id' => $todo->id,
+            'user_id' => $user->id,
+            'shared_at' => now(),
+            'message' => $validatedData['message'],
+            'tasks' => $tasks,
         ]);
-    
-        $todo = Todo::findOrFail($validatedData['todo_id']);
-        $user = User::where('email', $validatedData['email'])->first();
-    
-        if (!$todo->users->contains($user)) {
-            $todo->users()->attach($user);
-            // You may want to send an email notification here using Laravel Mail
-            // Example: Mail::to($user->email)->send(new TodoShared($todo, $validatedData['message']));
-            
-            return response()->json(['message' => 'Todo shared successfully.'], 200);
-        } else {
-            return response()->json(['message' => 'Todo already shared with this user.'], 400);
-        }
+
+        // You may want to send an email notification here using Laravel Mail
+        // Example: Mail::to($user->email)->send(new TodoShared($todo, $validatedData['message']));
+
+        return response()->json(['message' => 'Todo shared successfully.'], 200);
+    } else {
+        return response()->json(['message' => 'Todo already shared with this user.'], 400);
     }
+}
 
+////////
+public function showSharedTodos()
+{
+    $user = auth()->user();
+    $sharedTodos = $user->getSharedTodos();
 
+    return view('shared_todos', compact('sharedTodos'));
+}
 }

@@ -12,4 +12,8 @@ class Task extends Model
         'todo_id',
         'tasks',
     ];
+    public function todo()
+    {
+        return $this->belongsTo(Todo::class);
+    }
 }

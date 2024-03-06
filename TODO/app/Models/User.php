@@ -43,10 +43,20 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-   public function todos()
-   {
-    return $this->hasMany(Todo::class);
-   }
+    public function todos()
+    {
+        return $this->hasMany(Todo::class);
+    }
 
-    
+    public function sharedTodos()
+    {
+        return $this->belongsToMany(Todo::class, 'todo_shares')->withTimestamps();
+    }
+
+    public function getSharedTodos()
+    {
+        return $this->sharedTodos()->get();
+    }
 }
+
+

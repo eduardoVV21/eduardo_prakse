@@ -6,13 +6,21 @@
         <div class="flex justify-center">
             <div class="w-full md:w-3/4 lg:w-2/3">
                 <div class="bg-white shadow-md rounded-md">
-                    <div class="p-4 bg-gray-100 border-b border-gray-200">
+                    <div class="p-4 bg-gray-100 border-b border-gray-200 flex justify-between items-center">
                         <span class="text-lg font-semibold">All Todos</span>
-                        <a href="{{ route('todos.create') }}" class="btn btn-primary btn-sm float-right rounded-full p-1 shadow-md">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                            </svg>
-                        </a>
+                        <div class="flex items-center">
+    <a href="{{ route('todos.create') }}" class="btn btn-primary btn-sm rounded-full p-1 shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+    </a>
+    <a href="{{ route('shared.todos') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center ml-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 mr-2">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <span>Shared Todos</span>
+    </a>
+</div>
                     </div>
 
                     <div class="p-4">
@@ -55,9 +63,7 @@
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
                                                 </svg>
-                                            </button>
-
-                                            <form id="deleteForm-{{ $todo->id }}" action="{{ route('todos.destroy', ['id' => $todo->id]) }}" method="POST">
+                                            </button> <form id="deleteForm-{{ $todo->id }}" action="{{ route('todos.destroy', ['id' => $todo->id]) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" onclick="confirmDelete('{{ $todo->id }}')" style="color: red;" class="mr-2 p-2 border border-gray-300 rounded-full">
@@ -149,9 +155,9 @@
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Failed to share todo');
+            alert('Failed to share todo. Error: ' + error);
         });
     });
-</script>
+    </script>
 
 @endsection

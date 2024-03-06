@@ -5,35 +5,36 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Todo;
 use App\Models\User;
+use App\Models\TodoShare;
 
 class ShareController extends Controller
 {
     public function shareTodo(Request $request)
     {
-        // Validējiet ienākošos datus
-        $validatedData = $request->validate([
-            'todo_id' => 'required|exists:todos,id',
+        $request->validate([
             'email' => 'required|email',
             'message' => 'nullable|string',
+            'todo_id' => 'required|exists:todos,id',
         ]);
 
-        // Atrodiet uzdevumu, ko vēlaties kopīgot
-        $todo = Todo::findOrFail($validatedData['todo_id']);
+        $todo = Todo::findOrFail($request->todo_id);
+        $user = User::where('email', $request->email)->first();
 
-        // Atrodiet lietotāju, kuram vēlaties kopīgot
-        $user = User::where('email', $validatedData['email'])->first();
-
-        // Ja lietotājs nav atrasts, varat izvēlēties, kā rīkoties
         if (!$user) {
-            return redirect()->back()->with('error', 'User not found.');
+            return response()->json(['message' => 'User not found'], 404);
         }
 
-        // Pievienojiet uzdevumu lietotājam
-        $user->todos()->attach($todo);
+        if ($todo->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
 
-        // Šeit jūs varat nosūtīt e-pastu, ja vēlaties
-        // Mail::to($user)->send(new TodoShared($todo, $validatedData['message']));
+        TodoShare::create([
+            'todo_id' => $todo->id,
+            'user_id' => $user->id,
+            'shared_at' => now(),
+            'message' => $request->message,
+        ]);
 
-        return redirect()->back()->with('success', 'Todo shared successfully.');
+        return response()->json(['message' => 'Todo shared successfully'], 200);
     }
 }
