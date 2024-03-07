@@ -44,9 +44,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="description" class="block text-sm font-semibold text-gray-600">Description:</label>
-                            <textarea name="description" id="description" class="form-control mt-1 block w-full rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="3"></textarea>
-                        </div>
+    <label for="description" class="block text-sm font-semibold text-gray-600">Description:</label>
+    <textarea name="description" id="description" class="form-control mt-1 block w-full rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="3" required></textarea>
+</div>
 
                         <div class="flex justify-end">
                             <button type="submit" class="btn btn-primary">Create</button>

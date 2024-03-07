@@ -141,7 +141,7 @@
             body: formData
         })
         .then(response => {
-            console.log(response); // Log the response for debugging
+            console.log(response); 
             if (response.ok) {
                 return response.json();
             } else {
@@ -149,7 +149,7 @@
             }
         })
         .then(data => {
-            console.log(data); // Log the data for debugging
+            console.log(data); 
             alert(data.message);
             closeShareModal();
         })
